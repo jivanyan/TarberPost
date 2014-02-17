@@ -1,0 +1,71 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+	<head> 
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap -->
+		<link href="{% static 'css/bootstrap-fluid-adj.css' %}" rel="stylesheet">
+		<link href="{% static 'css/bootstrap.min.css'% }" rel="stylesheet" media="screen">
+		<link href="{% static 'css/bootstrap-responsive.css' %}" rel="stylesheet">
+	</head>
+	<body>
+		<p> It works! </p>
+		<br/>
+		<div class="hero-unit">
+    		    <div class="container">
+
+        		<form class="form-signin span4" id="login_form"  action="{% url 'login'  %}" method="post" >
+		        <h2 class="form-signin-heading">Please sign in</h2>
+        		{% csrf_token %}
+
+		        {% if bad_details %}
+		        	<p><strong>Your username and/or password were incorrect!</strong></p>
+		        {% elif disabled_account %}
+		        	<p><strong>Your Rango account is currently disabled; we can't log you in!</strong></p>
+			{% endif %}
+
+		        Username: <input type="text" class="input-block-level" placeholder="Username" name="username" value="" size="30" />
+        		<br />
+        		Password: <input type="password" class="input-block-level" placeholder="Password" name="password" value="" size="30" />
+        		<br />
+		        <input type="hidden" name="next" value="{{ next }}" />
+		        <button class="btn btn-success" type="submit">Login</button>
+			</form>
+
+		    </div>
+    			<!-- /container -->
+
+
+    		    <div class="container">
+		        
+		        <form class="form-signin span8" id="user_form" method="post" action="/patron/signup/"
+        			      enctype="multipart/form-data">
+        			    {% csrf_token %}
+        	    	<h2 class="form-signin-heading">Sign up Here</h2>
+        		    <!-- Display each form here -->
+
+		       	    {% for field in uf.visible_fields %}	
+                                    {{ field.errors }}
+	        		    {{ field.help_text }}<br />
+			            {{ field }}<br />
+        		    {% endfor %}
+
+	        	    {% for field in pf.visible_fields %}
+        			    {{ field.errors }}
+        			    {{ field.help_text }}<br />
+	        		    {{ field }}<br />
+        		    {% endfor %}
+
+        	  	  <br />
+            		<!-- Provide a button to click to submit the form. -->
+		            	<input class="btn btn-primary" type="submit" name="submit" value="Sign Up"/>
+        		</form>
+        
+   		     </div>
+		
+		</div>
+		<br>
+		<p>There are {{uc}} users and their have created {{bc}} transactions so far</p>	
+	</body>	
+	
+</html>

@@ -1,0 +1,68 @@
+{% extends 'patron/base_profile.html' %}
+{% block title %} 
+Profile Page
+{% endblock%}
+
+{% block body %}
+
+
+<form class = "form-signin span8" id = "bid_form" method = "post" action = "/patron/homepage/" enctype="multipart/form-data">
+	{% csrf_token %}
+        <h2 class="form-signin-heading">New Bid Here </h2>
+	{% for f in bid_form.visible_fields %}
+	{{ f.errors }}
+        {{ f.help_text }}<br />
+        {{ f }}<br />
+        {% endfor %}
+	<input class="btn btn-primary" type="submit" name="submit" value="Create"/>
+
+</form>
+<hr/>
+<div id = "search_bid">
+	<form action = "">
+		<input  class="search-query span10" type="text" name="sp" value="" id="sp" placeholder = "Starting Point" />
+		<input  class="search-query span10" type="text" name="ep" value="" id="ep" placeholder = "End Point" />
+		<input class="btn btn-primary" type="submit" name="search-submit" value="Search" id = "search-submit" />
+	</form>
+	<div id = "search_result"
+	{% include 'bids.html'  %}
+	</div>
+</div>
+<hr/>
+<div id = "mybids">
+	<ol>
+		{% for b in bids %}
+	    	</li>
+			<h2>{{ b.title }}</h2>
+			<p>From: {{b.startpoint}} To:{{b.endpoint}}</p>
+	    	</li>
+		{% endfor %}
+	</ol>
+</div>
+<hr/>
+<div id="footer_short">
+<div class="container">
+    <div class="row">
+    <div class="col-lg-2 col-md-2 col-sm-3 col-xs-3 text-muted not-link">
+    <a href="{% url 'main' %}" >The Team</a>
+    </div>
+    <div class="col-lg-2 col-md-2 col-sm-3 col-xs-3 text-muted not-link ">
+    <a href="{% url 'main' %}" >Join the Team</a>
+    </div>
+    <div class="col-lg-2 col-md-2 col-sm-3 col-xs-3 text-muted not-link">
+    <a href="mailto:jivanyan@gmail.com">Email Us</a>
+    </div>
+    <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 text-muted not-link">
+        <a href="{% url 'main' %}" >Feedback</a>
+    </div>
+    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 text-muted not-link">
+        <a href="{% url 'main' %}" >Agreement and the Terms of Use</a>
+    </div>
+    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-3 text-muted ">
+     &copy; 2014 Aram Jivanyan
+    </div>
+    </div>
+</div>
+</div>
+
+{% endblock %}
